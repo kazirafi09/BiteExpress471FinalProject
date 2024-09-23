@@ -1,0 +1,103 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="mb-4">Cart</h1>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Cart Items</h5>
+          </div>
+          <div class="card-body">
+            {% if items %}
+              <ul class="list-group">
+                {% for item in items %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong>{{ item.food_item.name }}</strong><br>
+                      Quantity: {{ item.quantity }}<br>
+                      Price: ${{ item.get_total_price }}
+                    </div>
+                    <form method="post" action="{% url 'remove_from_cart' %}" style="margin: 0;">
+                      {% csrf_token %}
+                      <input type="hidden" name="cart_item_id" value="{{ item.id }}">
+                      <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <div class="alert alert-info" role="alert">
+                Your cart is empty.
+              </div>
+            {% endif %}
+          </div>
+          <div class="card-footer text-end">
+            <!--<h4>Total: ${{ total }}</h4> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 d-flex flex-column">
+        {% if restaurant_name %}
+          <a href="{% url 'restaurant_menu' user_name=user.name restaurant_name=restaurant_name %}" class="btn btn-primary btn-lg mb-2">
+            <i class="bi bi-cart-plus"></i> Add more items
+          </a>
+        {% else %}
+          <a href="{% url 'dashboard'%}" class="btn btn-primary btn-lg mb-2">
+            <i class="bi bi-cart-plus"></i> Add more items
+          </a>
+        {% endif %}
+
+        <button class="btn btn-success btn-lg" id="viewOrderSummaryBtn">
+          <i class="bi bi-check-circle"></i> Review Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="modal fade" id="orderSummaryModal" tabindex="-1" aria-labelledby="orderSummaryLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderSummaryLabel">Order Summary</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="orderSummaryContent">
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <a href="{% url 'place_order' %}" class="btn btn-primary">Place Order</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('viewOrderSummaryBtn').addEventListener('click', function() {
+      fetch("{% url 'get_order_summery' %}")
+        .then(response => response.json())
+        .then(data => {
+          let orderSummary = '<ul class="list-group">';
+          data.items.forEach(item => {
+            orderSummary += `
+              <li class="list-group-item">
+                <strong>${item.food_item}</strong><br>
+                Quantity: ${item.quantity}<br>
+                Total: $${item.total_price}
+              </li>
+            `;
+          });
+          orderSummary += '</ul>';
+          orderSummary += `<h4 class="text-end">Total: $${data.total}</h4>`;
+          document.getElementById('orderSummaryContent').innerHTML = orderSummary;
+          var orderSummaryModal = new bootstrap.Modal(document.getElementById('orderSummaryModal'));
+          orderSummaryModal.show();
+        });
+    });
+  </script>
+{% endblock %}

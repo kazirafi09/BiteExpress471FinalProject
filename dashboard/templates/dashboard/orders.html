@@ -1,0 +1,27 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Your Orders</h1>
+    {% if orders %}
+        <ul class="list-group">
+            {% for order in orders %}
+                <li class="list-group-item">
+                    <h5>Order #{{ order.id }} - {{ order.created_at }}</h5>
+                    <ul>
+                        {% for item in order.items.all %}
+                            <li>{{ item.food_item.name }} - Quantity: {{ item.quantity }}</li>
+                        {% endfor %}
+                    </ul>
+                    <strong>Total: ${{ order.total_amount }}</strong><br>
+                    Status: {{ order.status }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            You have no orders.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

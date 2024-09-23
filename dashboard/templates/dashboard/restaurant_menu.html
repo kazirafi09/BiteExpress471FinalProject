@@ -1,0 +1,42 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block content %}
+<div class="container my-4">
+    <h1>{{ restaurant_name }}'s Menu</h1>
+    <ul class="list-group">
+        {% for item in menu_items %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h5>{{ item.name }}</h5>
+                    <p>{{ item.description }}</p>
+                    <p><strong>Price:</strong> ${{ item.price }}</p>
+                </div>
+                    <form method="post" action="{% url 'add_to_cart' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-flex align-items-center">
+                            <div class="input-group me-3" style="width: 120px;">
+                                <!-- <label for="quantity_{{ item.id }}" class="visually-hidden">Quantity</label> -->
+                                <!-- <input type="number" id="quantity_{{ item.id }}" class="form-control" value="0" min="1"> -->
+                                <input class="visually-hidden" type="hidden" name="food_item_id" value="{{ item.id }}">
+                                <input class="form-control" id="quantity_{{ item.id }}" type="number" name="quantity" value="1" min="1">
+                            </div>
+                    <button type="submit" class="btn btn-primary add-to-cart" data-item-id="{{ item.id }}"> 
+                        Add to cart
+                   </button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = this.getAttribute('data-item-id');
+            const quantity = document.getElementById('quantity_' + itemId).value;
+            alert(`Added ${quantity} of item ${itemId} to cart.`);
+        });
+    });
+</script>
+{% endblock %}

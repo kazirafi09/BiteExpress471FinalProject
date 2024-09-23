@@ -1,0 +1,20 @@
+{% extends 'members/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Restaurant Business Registration</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-12">
+            <div class="form-group">
+                <form action="{% url 'restaurant_registration' %}" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

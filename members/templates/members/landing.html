@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      body {
+          background-color: #f4f4f4;
+          margin: 0; 
+          padding: 0; 
+      }
+
+      .half-screen-height {
+          height: 60vh; 
+          width: 100%;
+          object-fit: cover;
+      }
+
+      .bg-image-container {
+          position: relative;
+          height: 60vh; 
+      }
+
+      .text-overlay {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          width: 100%; 
+          padding: 0 20px; 
+      }
+
+      .landing-font {
+          color: black;
+          font-size: 45px;
+          background-color: rgba(255, 255, 255, 0.7);
+          border-radius: 10px;
+          padding: 10px;
+          display: inline-block;
+        }
+      .intro-text {
+              font-size: 18px;
+              line-height: 1.6;
+              color: #333;
+      }
+      .highlight {
+          color: #f00;
+      }
+      #be {
+          font-size: 30px;
+      }
+      .card:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease-in-out;
+      }
+  </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BiteExpress</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg px-3">
+      <div class="container">
+        <a href="{% url 'register_user' %}" class="navbar-brand mb-0 h1" id="be">
+            {% block brand %}BiteExpress{% endblock %}
+        </a>
+          <div class="ms-auto">
+              <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#loginModal">
+                  Login
+              </button>
+              <button type="button" class="btn btn-danger mx-3" data-bs-toggle="modal" data-bs-target="#registrationModal">
+                  Registration
+              </button>
+          </div>
+      </div>
+  </nav>
+
+{% if messages %}
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+      {% for message in messages %}
+        Swal.fire({
+          title: 'Message',
+          text: "{{ message }}",
+          icon: 'info',
+          confirmButtonText: 'OK'
+        });
+      {% endfor %}
+    });
+  </script>
+{% endif %}
+  
+  <div class="container-fluid p-0 bg-image-container" id="landing">
+    <img class="half-screen-height" src="{% static 'members/davide-cantelli-jpkfc5_d-DI-unsplash.jpg' %}" alt="My image">
+    <div class="text-overlay">
+      <h1 class="landing-font">It's the food and groceries you love, delivered.</h1>
+    </div>
+  </div>
+  <div class="container py-5  my-3">
+    <div class="row" id="accordion">
+        <div class="col-lg-6">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            How to Place an Order
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>Ordering your favorite food is easy!</strong> Choose a restaurant, browse the menu, select your items, and proceed to checkout. Need assistance? Our customer support team is here to help.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Payment Options
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>Secure payment methods.</strong> We accept credit cards, debit cards, and online payment services. Your payment information is encrypted for safety.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Delivery Information
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>Fast and reliable delivery.</strong> Track your order in real-time. We strive to deliver your food hot and fresh, straight to your doorstep.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="info-box">
+                <h3>Why Choose Us?</h3>
+                <p>
+                    We are committed to providing you with the best food delivery experience. Here’s why you should choose us:
+                </p>
+                <ul>
+                    <li>Wide variety of restaurants and cuisines</li>
+                    <li>Easy and user-friendly ordering process</li>
+                    <li>Secure and multiple payment options</li>
+                    <li>Real-time order tracking</li>
+                    <li>Fast and reliable delivery</li>
+                    <li>Excellent customer support</li>
+                </ul>
+                <p>
+                    Join our community of happy customers and enjoy delicious meals delivered to your doorstep!
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="container my-3" id="landing">
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-12 mb-3 mb-md-0">
+            <img class="img-fluid" src="{% static 'members/fabrizio-magoni-boaDpmC-_Xo-unsplash.jpg' %}" alt="My image">
+        </div>
+        <div class="col-lg-4 col-md-5 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">List your restaurant or shop on BiteExpress</h5>
+                    <p class="card-text">Would you like millions of new customers to enjoy your amazing food and groceries? So would we!</p>
+                    <p class="card-text">It's simple: we list your menu and product lists online, help you process orders, pick them up, and deliver them to hungry customers – in a heartbeat!</p>
+                    <p>Interested? Let's start our partnership today!</p>
+                    <a href="{% url 'restaurant_registration' %}">
+                        <button type="button" class="btn btn-danger">Get Started!</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">We are available in:</h1>
+    <div class="row">
+        {% for city, image in cities.items %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow" style="opacity: 0; transition: opacity 0.3s ease-in-out;">
+                <div style="height: 80%;">
+                    <img src="{% static image %}" class="card-img-top h-100" alt="{{ city }}">
+                </div>
+                <div class="card-body d-flex flex-column justify-content-center" style="height: 20%;">
+                    <h5 class="card-title text-center mb-0">{{ city|title }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    
+</style>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" action="{% url 'login_user' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{% url 'forget_password' %}">Forget Password?</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrationModalLabel">Registration Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% load crispy_forms_tags %}
+                <form id="registrationForm" action="{% url 'register_user' %}" method="post" novalidate>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    
+  <div class="container my-3" id="landing">
+    <div class="row">
+        <div class="col-lg-4 col-md-5 col-12 mb-3 mb-md-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Join BiteExpress as a Delivery Partner!</h5>
+                    <p class="card-text">Are you looking for flexible work opportunities? Become a delivery partner with BiteExpress and start earning today!</p>
+                    <p class="card-text">Deliver food and groceries to customers in your area. We handle the orders and logistics; you enjoy the freedom to choose your hours.</p>
+                    <p>Interested? Let's get you started on our platform!</p>
+                    <a href="{% url 'delivery_registration' %}">
+                        <button type="button" class="btn btn-danger">Get Started!</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-7 col-12">
+            <img class="img-fluid" src="{% static 'members/man-with-surgical-medical-mask-uniform-holding-boxes_1157-35642.jpg' %}" alt="My image">
+        </div>
+    </div>
+</div>
+
+  <div class="container mt-5 ">
+    <h1 class="text-center mb-4">BiteExpress Bangladesh</h1>
+    <div class="intro-text">
+        <p>Are you hungry? Did you have a long and stressful day? Interested in getting a cheesy pizza delivered to your office or looking to avoid the weekly shop? Then BiteExpress Bangladesh is the right destination for you! BiteExpress offers you a long and detailed list of the best restaurants and shops near you to help make your everyday easier.</p>
+        <p>Our online food delivery service has it all, whether you fancy a juicy <span class="highlight">burger</span> from Takeout, fresh sushi from Samdado or peri peri chicken from Nando's, BiteExpress Bangladesh has over 2000 restaurants available from Dhaka to Chittagong through to Sylhet.</p>
+        <p>Did you know you can order your groceries and more from BiteExpress, too? Check out BiteExpress shops for favourite partners like Unimart, Suborno, Shwapno, Bengal Meat, and much more. Sit back and relax – let BiteExpress Bangladesh take the pressure off your shoulders.</p>
+  </div>
+</div>
+  <div class="container  my-3">
+    <footer class="py-3 my-4">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+      </ul>
+      <p class="text-center text-muted">© 2024 Company, Inc</p>
+    </footer>
+  </div>
+        
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const cards = document.querySelectorAll('.card');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    entry.target.style.opacity = 1;
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+});
+
+    </script>
+    <script src="{% static 'members/js/script.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
