@@ -1,2 +1,2 @@
 # BiteExpress
- Cse471 Lab Project
+CSE471: System Analysis and Design Project (Brac University)
